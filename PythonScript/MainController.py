@@ -381,7 +381,7 @@ class MainWindowController(QtWidgets.QMainWindow):
 
     def text_browser_save(self):
         filename = time.strftime('log/' + '%Y-%m-%d %H-%M-%S', time.localtime()) + '-log.txt'
-        self.uart.debug.print('Debug', 'Debug file saved: ' + filename)
+        self.uart.debug.print('调试', '调试日志文件已保存: ' + filename)
         with open(filename, 'w') as yourFile:
             yourFile.write(str(self.ui.textBrowser.toPlainText()))
 

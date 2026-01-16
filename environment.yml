@@ -1,0 +1,19 @@
+name: openstm
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.9
+  - numpy
+  - pandas
+  - pillow=9.5.0
+  - pyqt=5
+  - pyqtgraph
+  - openpyxl
+  - python-dateutil
+  - pytz
+  - six
+  - pip
+  - pip:
+    - et-xmlfile
+    - PyQt5-stubs

@@ -31,8 +31,8 @@ class ScanControllerHandle:
         self.line1 = self.ui.graphWidget_6.plot(self.graph_x_1, self.graph_y_1, pen=self.pen1)
 
         # Setting up MODE comboBox
-        self.ui.comboBox_scan_mode.addItems(['UpLeft', 'UpRight',
-                                            'DownLeft', 'DownRight'])
+        self.ui.comboBox_scan_mode.addItems(['左上', '右上',
+                                            '左下', '右下'])
 
         # scan image data restore
         self.image_x = []
@@ -62,7 +62,7 @@ class ScanControllerHandle:
         self.line1.setData(self.graph_x_1, self.graph_y_1)
 
     def line_test_begin(self):
-        if self.ui.pushButton_scan_Tbegin.text() == 'Begin':
+        if self.ui.pushButton_scan_Tbegin.text() == '开始':
             # generate file name
             xy_label = 'Y'
             if self.ui.radioButton_X.isChecked():
@@ -141,14 +141,14 @@ class ScanControllerHandle:
             self.command_send.send_to_scan_reg(1)
 
             # Change text on button
-            self.ui.pushButton_scan_Tbegin.setText('Stop')
+            self.ui.pushButton_scan_Tbegin.setText('停止')
 
         else:
             self.command_send.send_to_scan_reg(0)
-            self.ui.pushButton_scan_Tbegin.setText('Begin')
+            self.ui.pushButton_scan_Tbegin.setText('开始')
 
     def scan_begin(self):
-        if self.ui.pushButton_scan_begin.text() == 'Begin':
+        if self.ui.pushButton_scan_begin.text() == '开始':
             # -- generate file name -- #
             ch_label = 'CC'
             ch_mode = 1
@@ -231,7 +231,7 @@ class ScanControllerHandle:
             # begin test
             self.command_send.send_to_scan_reg(2)
 
-            self.ui.pushButton_scan_begin.setText('Stop')
+            self.ui.pushButton_scan_begin.setText('停止')
 
         else:
             # Reformat the current data into pixels
@@ -252,7 +252,7 @@ class ScanControllerHandle:
             except ValueError:
                 # Terminate the Scan process
                 self.command_send.send_to_scan_reg(0)
-                self.ui.pushButton_scan_begin.setText('Begin')
+                self.ui.pushButton_scan_begin.setText('开始')
 
             else:
                 # Proceed the display image
@@ -278,7 +278,7 @@ class ScanControllerHandle:
 
                 # Terminate the Scan process
                 self.command_send.send_to_scan_reg(0)
-                self.ui.pushButton_scan_begin.setText('Begin')
+                self.ui.pushButton_scan_begin.setText('开始')
 
     def scan_x_update(self, value):
         self.image_x.append(value)
@@ -290,24 +290,24 @@ class ScanControllerHandle:
         self.image_current.append(value)
 
     def line_save(self):
-        QMessageBox.information(None, 'Save', 'File Saved!')
+        QMessageBox.information(None, '保存', '数据已成功保存！')
         save_data = pd.DataFrame({'Position1': self.graph_x,
                                   'Current': self.graph_y,
                                   'Position2': self.graph_x_1,
                                   'Current2': self.graph_y_1})
         path = 'ScanData/' + self.ui.lineEdit_scan_line_filename.text() + '.xlsx'
         save_data.to_excel(path)
-        self.debug.print(self.scan, 'File Saved to ' + '\"' + path + '\"')
+        self.debug.print(self.scan, '文件已保存至 ' + '\"' + path + '\"')
 
     def image_save(self):
-        QMessageBox.information(None, 'Save', 'Image Saved!')
+        QMessageBox.information(None, '保存', '图像已成功保存！')
         save_data = pd.DataFrame({'X': self.image_x,
                                   'Y': self.image_y,
                                   'Current': self.image_current})
         path = 'ScanData/' + self.ui.lineEdit_scan_image_filename.text()
         save_data.to_excel(path + '.xlsx')
 
-        self.debug.print(self.scan, 'File Saved to ' + '\"' + path + '\"')
+        self.debug.print(self.scan, '图片与数据已保存至 ' + '\"' + path + '\"')
         self.img.save(path + '.tif')
 
 

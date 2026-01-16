@@ -39,11 +39,11 @@ class CurveScanControllerHandle:
         eta_s = int(65535 / step * delay / 1000)
         eta_m = int(eta_s / 60)
         eta_s = eta_s - eta_m * 60
-        label.setText(str(eta_m) + 'm' + str(eta_s) + 's')
+        label.setText(str(eta_m) + '分' + str(eta_s) + '秒')
 
     # --> Di Test --- #
     def di_begin(self):
-        if self.ui.pushButton_curve_dibegin.text() == 'Begin':
+        if self.ui.pushButton_curve_dibegin.text() == '开始':
             # switch mode
             self.mode = 1
             # Clear
@@ -61,7 +61,7 @@ class CurveScanControllerHandle:
             self.ui.lineEdit_curve_filename.setText('DITest-' + time_stamp + curve_attribute)
 
             # Switch the button
-            self.ui.pushButton_curve_dibegin.setText('Stop')
+            self.ui.pushButton_curve_dibegin.setText('停止')
 
             # -- Send UART command -- #
             stop = self.ui.spinBox_curve_distop.value()
@@ -86,7 +86,7 @@ class CurveScanControllerHandle:
             self.command_send.send_to_curve_test_register(0)
             print(self.graph_x)
             print(self.graph_y)
-            self.ui.pushButton_curve_dibegin.setText('Begin')
+            self.ui.pushButton_curve_dibegin.setText('开始')
 
     def di_inc_switch(self):
         # switch register to voltage in mV
@@ -126,7 +126,7 @@ class CurveScanControllerHandle:
 
     # --> BIAS Test --- #
     def bias_begin(self):
-        if self.ui.pushButton_curve_bbegin.text() == 'Begin':
+        if self.ui.pushButton_curve_bbegin.text() == '开始':
             self.mode = 2
             # Clear
             self.graph_x = []
@@ -143,7 +143,7 @@ class CurveScanControllerHandle:
             self.ui.lineEdit_curve_filename.setText('BiasTest-' + time_stamp + curve_attribute)
 
             # Switch the button
-            self.ui.pushButton_curve_bbegin.setText('Stop')
+            self.ui.pushButton_curve_bbegin.setText('停止')
 
             # -- Send UART command -- #
             stop = self.ui.spinBox_curve_bstop.value()
@@ -172,7 +172,7 @@ class CurveScanControllerHandle:
             self.command_send.send_to_curve_test_register(0)
             print(self.graph_x)
             print(self.graph_y)
-            self.ui.pushButton_curve_bbegin.setText('Begin')
+            self.ui.pushButton_curve_bbegin.setText('开始')
 
     def bi_inc_switch(self):
         # switch register to voltage in mV
@@ -197,13 +197,13 @@ class CurveScanControllerHandle:
         self.update_eta(step, delay, self.ui.label_bieta)
 
     def save_data(self):
-        QMessageBox.information(None, 'Save', 'File Saved!')
+        QMessageBox.information(None, '保存', '数据已成功保存！')
         save_data = pd.DataFrame({'Z Voltage/Bias': self.graph_x,
                                   'Current': self.graph_y,
                                   'log_e': self.graph_y_ln})
         path = 'CurveTestData/' + self.ui.lineEdit_curve_filename.text() + '.xlsx'
         save_data.to_excel(path)
-        self.debug.print(self.curve_test, 'File Saved to ' + '\"' + path + '\"')
+        self.debug.print(self.curve_test, '文件已保存至 ' + '\"' + path + '\"')
 
 
 

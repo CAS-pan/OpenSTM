@@ -32,7 +32,7 @@ class UartControllerHandle:
         self.ui.comboBox_UART_Port.addItems([port.portName() for port in QSerialPortInfo().availablePorts()])
 
         # self.ui = Ui_MainWindow()
-        self.debug.print(self.debug_label, 'Port Refreshed')
+        self.debug.print(self.debug_label, '端口列表已刷新')
 
         # Connect receive function
         self.port.readyRead.connect(self.uart_controller_command.read_port)
@@ -52,15 +52,15 @@ class UartControllerHandle:
         # if port is connected
         if self.port.isOpen():
             self.port.close()
-            self.ui.pushButton_UART_Connect.setText('Connect')
-            self.debug.print(self.debug_label, 'Disconnected')
+            self.ui.pushButton_UART_Connect.setText('连接设备')
+            self.debug.print(self.debug_label, '已断开连接')
 
         # if port is not connect
         else:
             # get port name and baud rate from the comboBox
             port = self.ui.comboBox_UART_Port.currentText()
             baud_rate = self.ui.comboBox_UART_BaudRate.currentText()
-            self.debug.print(self.debug_label, 'Connecting to port ' + port + ' with baud rate ' + baud_rate)
+            self.debug.print(self.debug_label, '正在连接端口 ' + port + '，波特率 ' + baud_rate)
 
             # setting the port
             self.port.setPortName(port)
@@ -71,7 +71,7 @@ class UartControllerHandle:
 
             # if connect failed
             if not r:
-                self.debug.print(self.debug_label, 'Connect Failed')
+                self.debug.print(self.debug_label, '连接失败')
 
             # if connect success
             else:
@@ -81,8 +81,8 @@ class UartControllerHandle:
                 time.sleep(0.1)
                 self.port.setDataTerminalReady(False)
                 self.port.setRequestToSend(False)
-                self.debug.print(self.debug_label, 'Connected')
-                self.ui.pushButton_UART_Connect.setText('Disconnect')
+                self.debug.print(self.debug_label, '连接成功')
+                self.ui.pushButton_UART_Connect.setText('断开连接')
                 # send welcome message
                 time.sleep(0.5)
                 self.port.write(('VERSI' + '00000').encode())

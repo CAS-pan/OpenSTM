@@ -15,11 +15,11 @@ class UartControllerCommandHandle:
         self.ui = ui
         self.port = port
         self.debug = debug
-        self.debug_label = 'UART Command'
-        self.approach_label = 'Approach'
-        self.system_label = 'System'
-        self.curve_test = 'Curve Test'
-        self.scan = 'Scan'
+        self.debug_label = '串口指令'
+        self.approach_label = '进近控制'
+        self.system_label = '系统信息'
+        self.curve_test = '曲线测试'
+        self.scan = '扫描控制'
 
         # Register-Voltage Converter
         self.rv_converter = rvConverterHandle(self.ui)
@@ -71,7 +71,7 @@ class UartControllerCommandHandle:
                 self.curve_handle.pid_update(int(datas))
             elif header == 'APPPU':
                 self.curve_handle.punch_update(int(datas))
-                self.debug.print(self.approach_label, 'Punch Value=' + str(datas))
+                self.debug.print(self.approach_label, '穿刺值=' + str(datas))
 
             # -- Approach Handle -- #
             # slider amplitude feedback
@@ -127,21 +127,21 @@ class UartControllerCommandHandle:
                 # 6 Pid mode
                 datas = int(datas)
                 if datas == 1:
-                    self.debug.print(self.approach_label, 'Fast Mode')
+                    self.debug.print(self.approach_label, '快速模式')
                     self.ui.progressBar.setValue(25)
-                    self.ui.label_approach_status.setText('FAST')
+                    self.ui.label_approach_status.setText('快速')
                 elif datas == 4:
-                    self.debug.print(self.approach_label, 'Slow Mode')
+                    self.debug.print(self.approach_label, '慢步模式')
                     self.ui.progressBar.setValue(50)
-                    self.ui.label_approach_status.setText('SLOW')
+                    self.ui.label_approach_status.setText('慢步')
                 elif datas == 5:
-                    self.debug.print(self.approach_label, 'Z Extending Mode')
+                    self.debug.print(self.approach_label, 'Z 轴伸展模式')
                     self.ui.progressBar.setValue(75)
-                    self.ui.label_approach_status.setText('Z EXT')
+                    self.ui.label_approach_status.setText('Z 伸展')
                 elif datas == 6:
-                    self.debug.print(self.approach_label, 'PID Mode')
+                    self.debug.print(self.approach_label, 'PID 模式')
                     self.ui.progressBar.setValue(100)
-                    self.ui.label_approach_status.setText('OK')
+                    self.ui.label_approach_status.setText('已锁定')
 
             # -- Curve scan Handle -- #
 
@@ -152,8 +152,8 @@ class UartControllerCommandHandle:
                 self.curve_scan_handle.di_y_update(int(datas))
 
             elif header == 'CTDOK':
-                self.debug.print(self.curve_test, 'D-I test finished.')
-                QMessageBox.information(None, 'Curve Scan', 'D-I Test Finished.')
+                self.debug.print(self.curve_test, 'D-I 曲线测试完成。')
+                QMessageBox.information(None, '曲线测试', 'D-I 曲线测试已完成。')
                 self.ui.pushButton_curve_dibegin.click()
 
             elif header == 'CTBBI':
@@ -163,8 +163,8 @@ class UartControllerCommandHandle:
                 self.curve_scan_handle.di_y_update(int(datas))
 
             elif header == 'CTBOK':
-                self.debug.print(self.curve_test, 'Bias test finished.')
-                QMessageBox.information(None, 'Bias Test', 'Bias Test Finished.')
+                self.debug.print(self.curve_test, '偏压测试完成。')
+                QMessageBox.information(None, '偏压测试', '偏压扫描测试已完成。')
                 self.ui.pushButton_curve_bbegin.click()
 
             # -- Scan -- #
@@ -181,12 +181,12 @@ class UartControllerCommandHandle:
                 self.scan_handle.line_update_y1(int(datas))
 
             elif header == 'SCLOK':
-                self.debug.print(self.scan, 'Line Test finished.')
+                self.debug.print(self.scan, '线扫描测试完成。')
                 # QMessageBox.information(None, 'Bias Test', 'Bias Test Finished.')
                 self.ui.pushButton_scan_Tbegin.click()
 
             elif header == 'SCOKO':
-                self.debug.print(self.scan, 'Scan finished.')
+                self.debug.print(self.scan, '图像扫描完成。')
                 # QMessageBox.information(None, 'Bias Test', 'Scan Finished.')
                 self.ui.pushButton_scan_begin.click()
 

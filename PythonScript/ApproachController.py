@@ -17,8 +17,8 @@ class ApproachControllerHandle:
             self.command_send.send_to_approach_register(0)
             # set progress bar value
             self.ui.progressBar.setValue(0)
-            self.ui.label_approach_status.setText('IDLE')
-            self.ui.pushButton_approach.setText('Approach')
+            self.ui.label_approach_status.setText('空闲')
+            self.ui.pushButton_approach.setText('自动进近')
             self.is_approach = False
         else:
             # Preprocess the data
@@ -64,11 +64,11 @@ class ApproachControllerHandle:
             self.command_send.send_to_approach_register(1)
 
             self.is_approach = True
-            self.ui.pushButton_approach.setText('Stop')
+            self.ui.pushButton_approach.setText('停止')
 
             # set progress bar value
             self.ui.progressBar.setValue(25)
-            self.ui.label_approach_status.setText('FAST')
+            self.ui.label_approach_status.setText('快速')
 
     def forward(self):
         self.command_send.send_to_approach_amplitude(self.ui.spinBox_approach_sliderA.value())
